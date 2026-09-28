@@ -5,19 +5,20 @@ paper). Each subfolder contains the export script that builds a
 `network_for_llm.json`-schema file from the source data, plus that
 script's actual output.
 
-**Raw survey/response data is intentionally not redistributed here.**
-Both sources are already public elsewhere; re-hosting a copy under this
-repo's license would blur who owns what. See each subfolder for exact
-provenance.
+**Raw survey/response data are not redistributed here.** Both sources
+are already public elsewhere (the Work Strain data on OSF, the BFI data
+inside the R `psych` package); re-hosting a copy under this repository's
+license would blur who owns what. Each subfolder does include the
+`network_for_llm.json` file that was used in the paper.
 
-## occupational_wellbeing/
+## work_strain_engagement/
 
 The BWAS-7/UWES-9/MBI-GS/PSS-10 network from Bereznowski, Atroszko &
 Konarski (2023), "Work addiction, work engagement, job burnout, and
 perceived stress: A network analysis," *Frontiers in Psychology* 14:1130069
 (https://doi.org/10.3389/fpsyg.2023.1130069).
 
-- `export_published_network.R` -- reuses the paper's own `script.R`
+- `export_bereznowski_network.R` -- reuses the paper's own `script.R`
   logic verbatim for data preparation (composite construction, listwise
   deletion) and calls the paper's own estimation function
   (`bootnet::estimateNetwork(default="EBICglasso", threshold=TRUE)`).
@@ -27,7 +28,7 @@ perceived stress: A network analysis," *Frontiers in Psychology* 14:1130069
   edges, N=676 -- an exact match to the paper's own reported density
   (27/91 edges), and to every edge weight the paper's Discussion section
   cites by name.
-- `occupational_wellbeing_network.pdf` / `.png` -- the corresponding
+- `occupational_wellbeing_network.pdf` -- the corresponding
   qgraph figure, community-colored, with a fixed layout seed for
   reproducibility.
 - `sessionInfo_bereznowski.txt` -- exact R/package versions used to
@@ -35,7 +36,7 @@ perceived stress: A network analysis," *Frontiers in Psychology* 14:1130069
 
 **To reproduce:** download `dataset.csv` from the paper's own OSF
 supplementary materials (https://osf.io/jvqfa/) and place it in a `data/`
-subdirectory next to `export_published_network.R` (i.e.
+subdirectory next to `export_bereznowski_network.R` (i.e.
 `data/dataset.csv`), then run the script -- it locates that file
 automatically regardless of your working directory, or you can point it
 elsewhere via the `NET2NARRATIVES_BEREZNOWSKI_DATA` environment variable.
@@ -62,7 +63,7 @@ https://CRAN.R-project.org/package=psych).
   theoretical five-factor structure from the item design, not data-driven
   detection. Also produces a qgraph figure of the estimated network, with
   a fixed layout seed for reproducibility.
-- `network_for_llm_bfi.json` -- this script's verified output: 25 nodes,
+- `network_for_llm.json` -- this script's verified output: 25 nodes,
   89 edges, N=2,436 complete cases (of 2,800 total).
 - `bfi_personality_network.pdf` -- the corresponding qgraph figure.
 - `sessionInfo_bfi.txt` -- exact R/package versions used to produce the

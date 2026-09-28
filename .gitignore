@@ -11,3 +11,6 @@ results_*/
 .RData
 .Rhistory
 .Rproj.user/
+
+# Third-party source data (download from OSF; see empirical_networks/README.md)
+empirical_networks/work_strain_engagement/data/dataset.csv

@@ -12,11 +12,28 @@ an upstream pipeline; `net2narratives` only needs a JSON file in the format
 described in [`schema/network_for_llm.md`](schema/network_for_llm.md).
 
 The repository also contains the validation suite used in the accompanying
-paper: hand-built and procedurally generated networks with known answers,
+manuscript: hand-built and procedurally generated networks with known answers,
 and a deterministic, rule-based scorer for six competencies (edge-sign
 fidelity, unsupported-association avoidance, magnitude-label consistency,
 community-membership grounding, centrality interpretation, and
 causal-language avoidance).
+
+## Accompanying manuscript
+
+Tapias, D. (2026). *From Networks to Narratives: Evaluating LLM-Based
+Interpretation of Psychological Networks.* The results reported in the
+manuscript were produced with release
+[v1.0.5](https://github.com/dapias/net2narratives/releases/tag/v1.0.5).
+
+**Main finding.** High performance on isolated diagnostic tasks did not
+guarantee faithful full-length reports. On the controlled and procedural
+benchmarks, where each network probes one competency, performance under
+the full protocol was close to ceiling for most competencies. When the same protocol
+was applied to two empirical psychological networks, the full-length
+reports still contained errors of the kinds the benchmarks were designed to
+detect. Benchmark competence should therefore be read as a necessary check,
+not as evidence that an LLM-generated network report can be used without
+expert review.
 
 ## Install
 
@@ -99,15 +116,14 @@ model and scores each response with the deterministic evaluator
 net2narratives-validate --llm-config my_llm_config.yaml --repeats 50 --out-dir results_synthetic    # repeated generations
 net2narratives-validate --llm-config my_llm_config.yaml --test-id calibration --out-dir results_test  # a single test
 net2narratives-validate --llm-config my_llm_config.yaml --source procedural \
-    --n-per-competency 100 --proc-seed 4242 --out-dir results_procedural                           # procedural networks
+    --n-per-competency 21 --proc-seed 4242 --out-dir results_procedural                           # procedural networks
 ```
 
 Each run writes the raw model output and a score file per test, plus a
-`summary.json` in the output directory (`--out-dir`). Every result records
-its provenance: package version, git commit and tag, whether the working
-tree had uncommitted changes, and SHA-256 fingerprints of the prompt,
-scorer, and network definitions. Interrupted runs resume from
-`summary.json` when rerun with the same `--out-dir`.
+`summary.json` in the output directory (`--out-dir`). Each result records
+the model, a UTC timestamp, the network source (hand-built or procedural),
+and, for procedural networks, their generation parameters. Interrupted runs
+resume from `summary.json` when rerun with the same `--out-dir`.
 
 The tables in the paper report, for each model and competency, the
 proportion of passed runs and the mean score computed from these
@@ -127,11 +143,15 @@ The configurations used for the paper are in `configs/`:
 
 Procedural networks are generated deterministically from
 `--n-per-competency` and `--proc-seed`, so they are not stored in the
-repository. The paper uses seed 4242:
+repository. The paper uses 21 networks per competency (126 procedural
+networks; together with the six hand-built networks, 132 in total) and
+seed 4242. Both values are needed: the generator draws a different set of
+networks for a different `--n-per-competency`, so the paper's networks are
+not the first 21 of a larger battery.
 
 ```bash
 net2narratives-validate --llm-config configs/llm_config_gptoss.yaml \
-    --source procedural --n-per-competency 100 --proc-seed 4242 \
+    --source procedural --n-per-competency 21 --proc-seed 4242 \
     --out-dir results/procedural_gptoss
 ```
 
@@ -141,7 +161,7 @@ checks. To inspect the generated networks without calling an LLM:
 
 ```bash
 python3 -m net2narratives.validation.procedural_networks \
-    --n-per-competency 100 --seed 4242 --out procedural_networks_seed4242.json
+    --n-per-competency 21 --seed 4242 --out procedural_networks_seed4242.json
 ```
 
 ### Template baseline
@@ -153,7 +173,7 @@ confirming that a perfect score is attainable:
 
 ```bash
 python3 -m net2narratives.validation.baselines --source both \
-    --n-per-competency 100 --seed 4242 --out-dir baseline_results
+    --n-per-competency 21 --seed 4242 --out-dir baseline_results
 ```
 
 ## Empirical case studies
@@ -168,9 +188,10 @@ provenance and reproduction steps.
 
 - **`work_strain_engagement/`**: the Work Strain and Engagement network,
   re-estimated from the data and analysis code of Bereznowski, Atroszko &
-  Konarski (2023). The source data (`data/dataset.csv`, CC BY 4.0,
-  originally deposited at <https://osf.io/jvqfa/>) is included with
-  attribution; see `data/README.md`.
+  Konarski (2023). The source data are not redistributed here; download
+  `dataset.csv` from the authors' OSF deposit (<https://osf.io/jvqfa/>) and
+  place it in `data/` to rebuild the network. The resulting
+  `network_for_llm.json` used in the paper is included.
 - **`personality/`**: the Personality network, estimated from the 25-item
   `bfi` dataset distributed with the R packages `psych`/`psychTools`; no
   separate download is needed.
@@ -200,7 +221,7 @@ empirical_networks/
   README.md
   work_strain_engagement/
     export_bereznowski_network.R
-    data/                   # dataset.csv (CC BY 4.0) and README.md
+    data/                   # place dataset.csv from OSF here (not tracked)
     network_for_llm.json
     occupational_wellbeing_network.pdf
     sessionInfo_bereznowski.txt

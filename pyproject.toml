@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "net2narratives"
-version = "1.0.0"	
-description = "Validated LLM interpretation of statistical association networks (partial-correlation matrices) as natural language."
+dynamic = ["version"]
+description = "Framework for evaluating LLM-generated interpretations of psychological networks."
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }

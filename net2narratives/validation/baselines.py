@@ -21,7 +21,7 @@ Appendix A.2). No API access is needed.
 
 Usage (matching the paper's benchmark settings):
     python3 -m net2narratives.validation.baselines --source both \
-        --n-per-competency 100 --seed 4242 --out-dir baseline_results
+        --n-per-competency 21 --seed 4242 --out-dir baseline_results
 """
 import argparse
 import datetime
@@ -173,7 +173,7 @@ def run_baselines(source="both", n_per_competency=100, seed=4242, out_dir="basel
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--source", choices=["synthetic", "procedural", "both"], default="both")
-    ap.add_argument("--n-per-competency", type=int, default=100)
+    ap.add_argument("--n-per-competency", type=int, default=21)
     ap.add_argument("--seed", type=int, default=4242)
     ap.add_argument("--out-dir", default="baseline_results")
     args = ap.parse_args()

@@ -7,7 +7,7 @@
     "method": "qgraph::cor_auto() correlations + bootnet::estimateNetwork(default='EBICglasso', threshold=TRUE), gamma=0.5 -- the paper's own estimation call. Reproduced here: 27 edges (paper: 27), mean|weight|=0.065 (paper: .06), max=0.422 (paper: .42). Community assignment is NOT re-detected (spin-glass is stochastic and was unstable on re-estimation); it is hardcoded from the paper's own reported 4-cluster spin-glass result (Results 3.2). expected_influence is derived here from the published edge matrix (signed row sums) -- the paper's own script does not report this metric, only standard node strength and a modified/bridge strength.",
     "community_detection_modularity": 0.394,
     "community_detection_note": "Modularity computed here on |edge weights| for the hardcoded published partition; the paper does not report a modularity value for its spin-glass solution.",
-    "caveat": "Cross-sectional data -- no causal interpretation warranted. EBIC-glasso regularization shrinks small partial correlations to exactly zero; an absent edge is not evidence the population association is zero."
+    "note": "Cross-sectional data -- no causal interpretation warranted. EBIC-glasso regularization shrinks small partial correlations to exactly zero; an absent edge is not evidence the population association is zero."
   },
   "nodes": [
     {

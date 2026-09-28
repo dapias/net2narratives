@@ -2,7 +2,7 @@
 # export_bfi_network.R -- builds network_for_llm.json from the public,
 # built-in psych::bfi (25-item Big Five Inventory) dataset, for use as a
 # second, genuinely public real-network external-validation case study
-# alongside Bereznowski et al. 2023 (see empirical_networks/occupational_wellbeing/).
+# alongside Bereznowski et al. 2023 (see empirical_networks/work_strain_engagement/).
 #
 # DATA SOURCE: psych::bfi is bundled directly in the R psych/psychTools
 # package (Revelle, W. psych: Procedures for Psychological, Psychometric,
@@ -33,7 +33,7 @@
 # so this calls the same two underlying functions directly. If you have
 # bootnet available, feel free to swap in
 # bootnet::estimateNetwork(df_complete, default="EBICglasso", threshold=TRUE)
-# for closer parity with how export_published_network.R called it for
+# for closer parity with how export_bereznowski_network.R called it for
 # Bereznowski -- results should be numerically identical, same defaults.
 #
 # ADMISSIBILITY: cor_auto()'s forcePD correction is checked explicitly
@@ -46,12 +46,12 @@
 # expected_influence/strength_centrality are derived directly from the
 # estimated edge matrix by THIS script, not sourced from any published
 # paper -- flagged as such in meta.method, same convention as
-# export_published_network.R used for Bereznowski.
+# export_bereznowski_network.R used for Bereznowski.
 #
-# OUTPUT LOCATION: network_for_llm_bfi.json, the figure, and the
+# OUTPUT LOCATION: network_for_llm.json, the figure, and the
 # sessionInfo capture are all written to THIS SCRIPT's own directory (via
 # .get_script_dir()), not R's working directory -- a bare relative
-# filename like "network_for_llm_bfi.json" would otherwise land wherever
+# filename like "network_for_llm.json" would otherwise land wherever
 # R's cwd happens to be at call time (e.g. the repo root, if run via
 # RStudio's Source button or `Rscript` from elsewhere), not necessarily
 # next to this script.
@@ -110,7 +110,7 @@ df <- bfi[, items]
 reverse_items <- c("A1", "C4", "C5", "E1", "E2", "O2", "O5")
 for (it in reverse_items) df[[it]] <- 7 - df[[it]]
 
-# Listwise deletion, same discipline as export_published_network.R used for
+# Listwise deletion, same discipline as export_bereznowski_network.R used for
 # Bereznowski (script.R's own approach, reused faithfully there).
 df_complete <- df[complete.cases(df), ]
 n_total <- nrow(bfi)
@@ -251,7 +251,7 @@ meta <- list(
 )
 
 out <- list(meta = meta, nodes = nodes, edges = edges)
-json_path <- file.path(SCRIPT_DIR, "network_for_llm_bfi.json")
+json_path <- file.path(SCRIPT_DIR, "network_for_llm.json")
 write(jsonlite::toJSON(out, auto_unbox = TRUE, pretty = TRUE, na = "null"), json_path)
 cat(sprintf("Wrote %s: %d nodes, %d edges\n", json_path, length(nodes), length(edges)))
 
