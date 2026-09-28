@@ -245,6 +245,14 @@ If you use this package, please cite:
 > Tapias, D. (2026). From Networks to Narratives: Evaluating LLM-Based
 > Interpretation of Psychological Networks.
 
+## Acknowledgments
+
+Parts of this codebase and its documentation were developed with the
+assistance of Claude (Anthropic), an AI assistant, including code review,
+debugging of the evaluation pipeline, and synchronizing the repository with
+the manuscript. All code was reviewed by the author, who takes full
+responsibility for the software and the results reported in the paper.
+
 ## License
 
 MIT
