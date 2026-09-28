@@ -25,15 +25,19 @@ Interpretation of Psychological Networks.* The results reported in the
 manuscript were produced with release
 [v1.0.5](https://github.com/dapias/net2narratives/releases/tag/v1.0.5).
 
-**Main finding.** High performance on isolated diagnostic tasks did not
-guarantee faithful full-length reports. On the controlled and procedural
-benchmarks, where each network probes one competency, performance under
-the full protocol was close to ceiling for most competencies. When the same protocol
-was applied to two empirical psychological networks, the full-length
-reports still contained errors of the kinds the benchmarks were designed to
-detect. Benchmark competence should therefore be read as a necessary check,
-not as evidence that an LLM-generated network report can be used without
-expert review.
+**Main finding.** There is a gap between isolated competence and
+report-level faithfulness. On the controlled benchmarks, automated pass
+rates with the full prompt ranged from 86% to 100% across models and
+competencies, and manual review of every flagged output found no genuine
+error of the targeted type. Full-length reports on the two empirical
+networks told a different story: most contained at least one grounding
+error, and unsupported associations, misattributed edge values, magnitude
+labels misapplied near category boundaries, and causal-suggestive framing
+missed by a keyword-based check all appeared. Success on targeted
+diagnostic checks therefore does not guarantee a faithful scientific
+narrative; reliable LLM-assisted network interpretation needs evaluation of
+the complete report, and automated evaluation of such reports needs
+validation against manual review.
 
 ## Install
 
